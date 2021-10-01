@@ -1,3 +1,4 @@
+def skipRemainingStages = false
 pipeline {
     agent any
 
@@ -6,19 +7,33 @@ pipeline {
             steps {
                
                     sh 'mvn compile'
-                
+                 script {
+                    skipRemainingStages = true
+
+                    println "skipRemainingStages = ${skipRemainingStages}"
+                }
             }
         }
-        
+       
         stage ('test maven') {
+            when {
+                expression {
+                    !skipRemainingStages
+                }
+            }
             steps {
                
-                    sh 'mvn test'
+                    sh 'mvn tes'
                 
             }
         }
       
         stage ('build maven') {
+            when {
+                expression {
+                    !skipRemainingStages
+                }
+            }
             steps {
                
                     sh 'mvn package'
