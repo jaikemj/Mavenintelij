@@ -29,7 +29,7 @@ pipeline {
                  
                  try {
                       sh 'mvn test'
-                     } finally {
+                     }  catch(Exception e){
                       echo '[FAILURE] Failed to build' 
                       continueBuild = false
                       currentBuild.result = 'ABORTED'
@@ -54,7 +54,7 @@ pipeline {
                try {
                
                     sh 'mvn package'
-                    } finally {
+                    }  catch(Exception e) {
                       echo '[FAILURE] Failed to build' 
                       currentBuild.result = 'ABORTED'
                       error('Stopping early…')
